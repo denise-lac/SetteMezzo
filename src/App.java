@@ -7,9 +7,11 @@ public class App {
         Scanner sc = new Scanner(System.in);
         Random random = new Random();
         boolean continua = true;
+        String[] seme = { "Denari", "Coppe", "Spade", "Bastoni" };
 
         while (continua) {
             boolean condizioneGiocatore = true;
+            boolean[][] controllo = new boolean[10][4];
 
             // inizializzo i punteggi
             double punteggioGiocatore = 0;
@@ -19,9 +21,16 @@ public class App {
 
             // turno giocatore
             while (condizioneGiocatore && punteggioGiocatore < 7.5) {
-                int cartaGiocatore = random.nextInt(10) + 1;
+                int indiceSemeGiocatore;
+                int cartaGiocatore;
+                do {
+                    indiceSemeGiocatore = random.nextInt(seme.length);
+                    cartaGiocatore = random.nextInt(10) + 1;
+                } while (controllo[cartaGiocatore - 1][indiceSemeGiocatore]);
 
-                System.out.println("Hai pescato " + cartaGiocatore);
+                String semeGiocatore = seme[indiceSemeGiocatore];
+
+                System.out.println("Il giocatore ha pescato il " + cartaGiocatore + " di " + semeGiocatore);
 
                 if (cartaGiocatore >= 8) {
                     punteggioGiocatore += 0.5;
@@ -57,9 +66,18 @@ public class App {
                 System.out.println("Turno del banco:");
 
                 while (punteggioPC < 7.5 && punteggioPC < punteggioGiocatore) {
-                    int cartaPC = random.nextInt(10) + 1;
+                    int indiceSemePC;
+                    int cartaPC;
+                    do {
+                        indiceSemePC = random.nextInt(seme.length);
+                        cartaPC = random.nextInt(10) + 1;
+                    } while (controllo[cartaPC - 1][indiceSemePC]);
+                    
+                    
+                    String semePC = seme[indiceSemePC];
+                    
 
-                    System.out.println("Il PC ha pescato " + cartaPC);
+                    System.out.println("Il PC ha pescato " + cartaPC + " di " + semePC);
 
                     if (cartaPC >= 8) {
                         punteggioPC += 0.5;
@@ -111,7 +129,7 @@ public class App {
                 }
 
             }
-            
+
         }
         sc.close();
     }
