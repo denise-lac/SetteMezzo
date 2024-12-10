@@ -10,12 +10,18 @@ public class App {
 
         while (continua) {
             boolean condizioneGiocatore = true;
-            double punteggioGiocatore = 0;
 
+            // inizializzo i punteggi
+            double punteggioGiocatore = 0;
+            double punteggioPC = 0;
+
+            boolean giocatoreSballato = false;
+
+            // turno giocatore
             while (condizioneGiocatore && punteggioGiocatore < 7.5) {
                 int cartaGiocatore = random.nextInt(10) + 1;
 
-                System.out.println(cartaGiocatore);
+                System.out.println("Hai pescato " + cartaGiocatore);
 
                 if (cartaGiocatore >= 8) {
                     punteggioGiocatore += 0.5;
@@ -39,20 +45,73 @@ public class App {
                     condizioneGiocatore = false;
                 } else {
                     System.out.println("Hai sballato!");
+                    giocatoreSballato = true;
                     condizioneGiocatore = false;
                 }
 
             }
 
-            System.out.println("Vuoi giocare ancora?: (s/n)");
-            String scelta_rigiocare = sc.nextLine();
-            if (scelta_rigiocare.equalsIgnoreCase("s")) {
-                System.out.println("Hai scelto di fare un'altra partita");
-            } else {
-                System.out.println("Grazie per aver utilizzato il gioco");
-                continua = false;
-            }
+            // Turno del banco (se il giocatore non ha sballato)
+            if (!giocatoreSballato) {
 
+                System.out.println("Turno del banco:");
+
+                while (punteggioPC < 7.5 && punteggioPC < punteggioGiocatore) {
+                    int cartaPC = random.nextInt(10) + 1;
+
+                    System.out.println("Il PC ha pescato " + cartaPC);
+
+                    if (cartaPC >= 8) {
+                        punteggioPC += 0.5;
+                    } else {
+                        punteggioPC += cartaPC;
+                    }
+
+                    System.out.println("Il punteggio del PC è: " + punteggioPC);
+
+                    if (punteggioPC > 7.5) {
+                        System.out.println("Il PC ha sballato!");
+                        break;
+                    } else if (punteggioPC == 7.5) {
+                        System.out.println("Il PC ha fatto 7 e mezzo!");
+                        break;
+                    } else if (punteggioPC > punteggioGiocatore && punteggioPC < 7.5) {
+                        System.out.println("Il PC ha deciso di fermarsi");
+                    }
+
+                }
+
+                // verifichiamo chi ha vinto la partita
+                if ((punteggioPC <= 7.5 && punteggioGiocatore <= 7.5) || punteggioPC == punteggioGiocatore) {
+
+                    if (punteggioGiocatore > punteggioPC) {
+                        System.out.println("Il giocatore ha vinto la partita");
+
+                    } else if (punteggioGiocatore == punteggioPC) {
+                        System.out.println("Pareggio");
+                    } else {
+                        System.out.println("Il PC ha vinto");
+                    }
+
+                } else if (punteggioGiocatore > 7.5) {
+                    System.out.println("Il pc ha vinto la partita");
+
+                } else {
+                    System.out.println("Il giocatore ha vinto la partita");
+                }
+
+                // nuova partita
+                System.out.println("Vuoi giocare ancora?: (s/n)");
+                String scelta_rigiocare = sc.nextLine();
+                if (scelta_rigiocare.equalsIgnoreCase("s")) {
+                    System.out.println("Hai scelto di fare un'altra partita");
+                } else {
+                    System.out.println("Grazie per aver utilizzato il gioco");
+                    continua = false;
+                }
+
+            }
+            
         }
         sc.close();
     }
