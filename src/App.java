@@ -18,6 +18,7 @@ public class App {
                 sc.nextLine();
                 if (puntata <= budget) {
                     boolean condizioneGiocatore = true;
+                    int matta = random.nextInt(2);
                     boolean[][] controllo = new boolean[10][4];
 
                     // inizializzo i punteggi
@@ -25,7 +26,7 @@ public class App {
                     double punteggioPC = 0;
 
                     boolean giocatoreSballato = false;
-
+                    System.out.println("-----------------------------------------------");
                     // turno giocatore
                     while (condizioneGiocatore && punteggioGiocatore < 7.5) {
                         int indiceSemeGiocatore;
@@ -67,6 +68,7 @@ public class App {
 
                     }
 
+                    System.out.println("-----------------------------------------------");
                     // Turno del banco (se il giocatore non ha sballato)
                     if (!giocatoreSballato) {
 
@@ -104,20 +106,31 @@ public class App {
 
                         }
 
+                        System.out.println("-----------------------------------------------");
                         // verifichiamo chi ha vinto la partita
-                        if ((punteggioPC <= 7.5 && punteggioGiocatore <= 7.5) || punteggioPC == punteggioGiocatore) {
+                        if ((punteggioPC <= 7.5 && punteggioGiocatore <= 7.5)
+                                || punteggioGiocatore == punteggioPC) {
+                            if (matta == 0) {
+                                System.out.println("Il giocatore fa la matta");
+                                if (punteggioGiocatore >= punteggioPC) {
+                                    System.out.println("Il giocatore ha vinto la partita");
+                                    budget += puntata;
 
-                            if (punteggioGiocatore > punteggioPC) {
-                                System.out.println("Il giocatore ha vinto la partita");
-                                budget += puntata;
-
-                            } else if (punteggioGiocatore == punteggioPC) {
-                                System.out.println("Pareggio");
+                                } else {
+                                    System.out.println("Il pc ha vinto la partita");
+                                    budget -= puntata;
+                                }
                             } else {
-                                System.out.println("Il PC ha vinto");
-                                budget -= puntata;
-                            }
+                                System.out.println("Il pc fa la matta");
+                                if (punteggioPC >= punteggioGiocatore) {
+                                    System.out.println("Il pc ha vinto la partita");
+                                    budget -= puntata;
 
+                                } else {
+                                    System.out.println("Il giocatore ha vinto la partita");
+                                    budget += puntata;
+                                }
+                            }
                         } else if (punteggioGiocatore > 7.5) {
                             System.out.println("Il pc ha vinto la partita");
                             budget -= puntata;
